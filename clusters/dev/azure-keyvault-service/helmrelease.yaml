@@ -1,0 +1,23 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: azure-keyvault-service
+  namespace: poc-dev
+spec:
+  releaseName: azure-keyvault-service
+  interval: 5m
+  chart:
+    spec:
+      chart: azure-keyvault-service
+      sourceRef:
+        kind: HelmRepository
+        name: myacr
+  valuesFrom:
+    - kind: ConfigMap
+      name: values-dev
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
