@@ -1,0 +1,20 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: azure-keyvault-e2e
+  namespace: poc-dev
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: ./apps/azure-keyvault-e2e
+      sourceRef:
+        kind: GitRepository
+        name: fluxcd-gitops
+        namespace: flux-system
+  values:
+    image:
+      repository: saipocregistry.azurecr.io/azure-keyvault-e2e
+      tag: latest
+    env:
+      SPRING_PROFILES_ACTIVE: "dev"
